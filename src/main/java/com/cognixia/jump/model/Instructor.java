@@ -21,7 +21,7 @@ public class Instructor implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	@Column(name= "instructor_id")
+//	@Column(name= "instructor_id")
 	private Long id;
 	
 	@NotBlank
@@ -39,16 +39,23 @@ public class Instructor implements Serializable {
 	
 	public Instructor() {}
 
-
-	public Instructor(Long id, @NotBlank String firstName, @NotBlank String lastName) {
+	public Instructor(Long id, @NotBlank String firstName, @NotBlank String lastName, Set<Course> courses) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		
-	
+		this.courses = courses;
 	}
 
+
+
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
 
 	public Long getId() {
 		return id;

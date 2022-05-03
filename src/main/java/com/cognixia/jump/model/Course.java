@@ -21,7 +21,7 @@ public class Course implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="course_id")
+//	@Column(name="course_id")
 	private Long id;
 	
 	@NotBlank
@@ -40,6 +40,9 @@ public class Course implements Serializable {
 			joinColumns = @JoinColumn(name="course_id"),  
 			inverseJoinColumns = @JoinColumn(name="instructor_id"))
 	private Set<Instructor> instructors = new HashSet<>();
+	
+	@ManyToMany(mappedBy="courses")
+	private Set<Student> students = new HashSet<>();
 	
 	
 	public Course() {
