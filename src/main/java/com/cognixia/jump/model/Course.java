@@ -41,6 +41,8 @@ public class Course implements Serializable {
 			inverseJoinColumns = @JoinColumn(name="instructor_id"))
 	private Set<Instructor> instructors = new HashSet<>();
 	
+	
+	
 	@ManyToMany(mappedBy="courses")
 	private Set<Student> students = new HashSet<>();
 	
@@ -55,8 +57,20 @@ public class Course implements Serializable {
 		this.name = name;
 		this.duration = duration;
 		this.description = description;
+		this.instructors= instructors;
 	
 	}
+	
+	//add instructor to one course;
+	public void enrollInstructor(Instructor inst) {
+		instructors.add(inst);
+	}
+	
+	//add student to one course;
+	public void enrollStudent(Student student) {
+		students.add(student);
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -89,13 +103,31 @@ public class Course implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 
+	public Set<Instructor> getInstructors() {
+		return instructors;
+	}
+
+	public void setInstructors(Set<Instructor> instructors) {
+		this.instructors = instructors;
+	}
+
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Set<Student> students) {
+		this.students = students;
+	}
 
 	@Override
 	public String toString() {
-		return "Courses [id=" + id + ", name=" + name + ", duration=" + duration + ", description=" + description
-				+ " ]";
+		return "Course [id=" + id + ", name=" + name + ", duration=" + duration + ", description=" + description
+				+ ", instructors=" + instructors + ", students=" + students + "]";
 	}
+
+	
 	
 	
 	

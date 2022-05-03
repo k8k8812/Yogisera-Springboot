@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Instructor implements Serializable {
 
@@ -32,7 +34,7 @@ public class Instructor implements Serializable {
 	@Column(nullable= false, columnDefinition="varchar(50) default 'N/A' ")
 	private String lastName;
 	
-	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "instructors")
 	private Set<Course> courses = new HashSet<>();
 	
@@ -46,7 +48,8 @@ public class Instructor implements Serializable {
 		this.lastName = lastName;
 		this.courses = courses;
 	}
-
+	
+	
 
 
 	public Set<Course> getCourses() {

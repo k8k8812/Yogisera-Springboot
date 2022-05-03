@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Student implements Serializable {
 
@@ -32,6 +34,7 @@ public class Student implements Serializable {
 	@Column(nullable= false, columnDefinition="varchar(50) default 'N/A' ")
 	private String lastName;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name = "student_course",
