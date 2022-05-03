@@ -24,7 +24,7 @@ import com.cognixia.jump.util.JwtUtil;
 
 @RequestMapping("/api")
 @RestController
-public class HelloController {
+public class SecurityController {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -45,6 +45,11 @@ public class HelloController {
 	public String hello() {
 		return "Hello World";
 	}
+	
+//	@GetMapping("/all")
+//	public String all() {
+//		return "ALL is ALL!";
+//	}    --- this is to test 
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest request) throws Exception {
@@ -70,7 +75,7 @@ public class HelloController {
 	}
 	
 	//Create new User
-	@PostMapping("/registerStudent")
+	@PostMapping("/registerstu")
 	public ResponseEntity<?> createNewUser(@RequestBody AuthenticationRequest newUser) throws Exception {
 		
 		Optional<User> isAlreadyRegistered = userRepo.findByUsername(newUser.getUsername());

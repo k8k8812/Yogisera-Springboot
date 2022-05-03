@@ -38,9 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-			.antMatchers(HttpMethod.POST, "/api/registerStudent").permitAll()
+			.antMatchers(HttpMethod.POST, "/api/registerstu").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/hello").hasRole("ADMIN")
-			.antMatchers(HttpMethod.GET, "/v3/api-docs").permitAll()
 			.anyRequest().authenticated()
 			.and().sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
