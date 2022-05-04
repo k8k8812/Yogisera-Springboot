@@ -1,11 +1,14 @@
 package com.cognixia.jump.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Course;
 import com.cognixia.jump.model.Instructor;
 import com.cognixia.jump.model.Student;
@@ -34,6 +37,29 @@ public class CourseService {
 	//get all the courses;
 	public List<Course> getAllCourses() {
 		return courseRepo.findAll();
+	}
+	
+	public List<String> showCourseInfo(){
+		List<Course> find = courseRepo.findAll();
+		List<String> show = new ArrayList<String>();
+		
+		find.stream()
+				.forEach(each -> show.add(each.showCoursesInfo()));
+		
+		return show;
+				
+		
+	}
+	
+	//get course list for one student;
+	public List<Course> getCourseListForOneStudent(Long stuId) throws ResourceNotFoundException {
+		
+		if(stuRepo.existsById(stuId)) {
+			List<Course> find = courseRepo.getCourseListByStudentId(stuId);
+			return find;
+		}
+		//TODO: ResourceNotFound excepiton; 
+		throw new ResourceNotFoundException(LocalDateTime.now());
 	}
 	
 	

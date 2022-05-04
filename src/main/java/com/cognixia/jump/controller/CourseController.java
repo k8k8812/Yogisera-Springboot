@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Course;
 import com.cognixia.jump.service.CourseService;
 
@@ -34,6 +35,26 @@ public class CourseController {
 		Optional<List<Course>> all = Optional.of(courseService.getAllCourses());
 		
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(all.get());
+	}
+	
+	@GetMapping("/courseinfo")
+	public ResponseEntity<?> courseInfo(){
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED)
+				.body(">>>>>> Yogi Course Info: >>>>>>" 
+							+ courseService.showCourseInfo());
+	}
+	
+	//view enrolled course for login student
+	@GetMapping("/getCourseList/{studentId}")
+	public ResponseEntity<?> getCourseListForOneStudent(@PathVariable Long studentId) 
+			throws ResourceNotFoundException{
+		List<Course> find;
+		
+			find = courseService.getCourseListForOneStudent(studentId);
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(">>> Courses enrolled are:  >>>>   "+ find);
+	
 	}
 	
 	@PostMapping("/add")

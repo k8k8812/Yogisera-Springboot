@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.AlreadyExistedException;
 import com.cognixia.jump.model.Instructor;
 import com.cognixia.jump.repository.InstructorRepository;
 
@@ -23,12 +24,14 @@ public class InstructorService {
 		return repo.findAll();
 	}
 	
-	public Instructor addInstructor(Instructor inst) throws Exception {
+	public Instructor addInstructor(Instructor inst) throws AlreadyExistedException  {
 		
 		Optional<Instructor> find = repo.findByName(inst.getFirstName(), inst.getLastName());
 		
 		if(find.isPresent()) {
-			throw new Exception(">>>> Instructor has already existed! ");
+			
+			//TODO: create alreadyExisted Exception;
+			throw new AlreadyExistedException();
 		}
 		
 		return repo.save(inst);

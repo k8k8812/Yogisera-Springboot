@@ -41,16 +41,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/api/register").permitAll()    // --add roles;
 			
 			
-			.antMatchers(HttpMethod.GET, "/api/student/**").permitAll() //any GET student operations will be permitted
+			 //transaction will only be made by students;
 			.antMatchers(HttpMethod.POST, "/api/transaction/**").hasRole("STUDENT")
-			.antMatchers(HttpMethod.POST, "/api/student/**").hasRole("ADMIN")
-			.antMatchers(HttpMethod.DELETE, "/api/student/**").hasRole("ADMIN")
-			.antMatchers("/api/transaction/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/transaction/all").hasRole("ADMIN")
+			
+			// only specific student have access to his account;
+			.antMatchers(HttpMethod.GET, "/api/student/{studentId}").hasRole("STUDENT") 
+			.antMatchers(HttpMethod.POST, "/api/student/**").hasAnyRole("ADMIN","INSTRUCTOR")
+			
+			
+			// course information is available to the public;
+			.antMatchers(HttpMethod.GET, "/api/course/courseinfo").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/course/getCourseList/{studentId}").hasRole("STUDENT")
+			.antMatchers(HttpMethod.POST, "/api/course/add").hasAnyRole("INSTRUCTOR","ADMIN")
+			.antMatchers(HttpMethod.PUT, "/api/course/**").hasRole("ADMIN")
+			
+			
+			.antMatchers("/api/instructor/**").hasRole("ADMIN")
+			
 			.antMatchers( "/swagger-ui/index.html").permitAll()
-			.antMatchers("/api/course/**").hasAnyRole("INSTRUCTOR","ADMIN")
-			.antMatchers( "/api/instructor/**").hasRole("ADMIN")
-			
-			
 			.anyRequest().authenticated()
 			.and().sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

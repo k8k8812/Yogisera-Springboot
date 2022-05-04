@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 
@@ -44,11 +42,12 @@ public class Student implements Serializable {
 	}
 
 
-	public Student(Long id, @NotBlank String firstName, @NotBlank String lastName ) {
+	public Student(Long id, @NotBlank String firstName, @NotBlank String lastName, Set<Course> courses ) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.courses = courses;
 		
 	}
 
@@ -83,12 +82,25 @@ public class Student implements Serializable {
 	}
 
 
-	
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+
 
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName +  " ]";
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
+
+	
+	
+
+	
 	
 	
 	

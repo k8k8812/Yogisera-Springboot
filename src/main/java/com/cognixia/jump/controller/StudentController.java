@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.AlreadyExistedException;
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Student;
 import com.cognixia.jump.service.StudentService;
 
@@ -31,13 +33,13 @@ public class StudentController {
 	}
 	
 	@GetMapping("/{studentId}")
-	public ResponseEntity<?> getStudentById(@PathVariable Long studentId) throws Exception {
+	public ResponseEntity<?> getStudentById(@PathVariable Long studentId) throws ResourceNotFoundException {
 		Student stu = service.getStuById(studentId);
 		return ResponseEntity.status(HttpStatus.OK).body("Successfully get student "+ stu);
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<?> addStudent(@RequestBody Student student) throws Exception {
+	public ResponseEntity<?> addStudent(@RequestBody Student student) throws AlreadyExistedException  {
 		service.addStudent(student);
 		return ResponseEntity.status(HttpStatus.OK).body("Successfully add student "+ student);
 	}

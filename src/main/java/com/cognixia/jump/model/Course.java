@@ -65,6 +65,7 @@ public class Course implements Serializable {
 	
 	}
 	
+	
 	//add instructor to one course;
 	public void enrollInstructor(Instructor inst) {
 		instructors.add(inst);
@@ -129,6 +130,16 @@ public class Course implements Serializable {
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + ", duration=" + duration + ", description=" + description
 				+ ", instructors=" + instructors + ", students=" + students + "]";
+	}
+	
+	public String showCoursesInfo() {
+		String a =System.lineSeparator() + "Course:  id=" + id + " "   
+				+ "name=" + name + System.lineSeparator() 
+				+ " duration=" + duration + System.lineSeparator()
+				+ " description=" + description + " " + System.lineSeparator() 
+				+ "instructors=" + instructors + "  "+ System.lineSeparator();
+		
+		return a; 
 	}
 
 	

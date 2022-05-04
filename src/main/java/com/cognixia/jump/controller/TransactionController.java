@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.service.TransactionService;
 
 @RestController
@@ -28,15 +29,16 @@ public class TransactionController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.getAll());
 	}
 	
-	@PostMapping("/purchase/{courseId}/{studentId}") //worked!
-	public ResponseEntity<?> purchaseCourse(@PathVariable Long courseId, @PathVariable Long studentId){
-		service.coursePurchase(studentId, courseId);
-		
-		return ResponseEntity.status(HttpStatus.ACCEPTED)
-				.body("Student with Id: " + studentId 
-						+ "has successfully purchased course with Id: " + courseId);
+	@PostMapping("/purchase/{courseId}/{studentId}") 
+	public ResponseEntity<?> purchaseCourse(@PathVariable Long courseId,
+											@PathVariable Long studentId) throws ResourceNotFoundException {
+												
+			service.coursePurchase(studentId, courseId);
+			
+			return ResponseEntity.status(HttpStatus.ACCEPTED)
+			.body("Student with Id: " + studentId 
+			+ "has successfully purchased course with Id: " + courseId);
 	}
-	
-	
+											
 	
 }

@@ -1,11 +1,14 @@
 package com.cognixia.jump.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.AlreadyExistedException;
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Student;
 import com.cognixia.jump.repository.StudentRepository;
 
@@ -24,21 +27,21 @@ public class StudentService {
 		return repo.findAll();
 	}
 	
-	public Student getStuById(Long id) throws Exception {
+	public Student getStuById(Long id) throws ResourceNotFoundException {
 		Optional<Student> find = repo.findById(id);
 		if(find.isPresent()) {
 			return find.get();
 		}
 		//TODO: gonna throw ResourceNotFound exception.
-		throw new Exception("Sorry, failed to locate that student with ID " + id);
+		throw new ResourceNotFoundException(LocalDateTime.now());
 	}
 	
-	public void addStudent(Student student) throws Exception {
+	public void addStudent(Student student) throws AlreadyExistedException  {
 		
 		Optional<Student> find = repo.findByName(student.getFirstName(), student.getLastName());
 		if(find.isPresent()) {
 			//TODO: gonna throw AlreadyExisted exception.
-			throw new Exception("Sorry, student has already existed.");
+			throw new AlreadyExistedException();
 		}
 		repo.save(student);
 	}
