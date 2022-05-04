@@ -42,8 +42,11 @@ public class Course implements Serializable {
 	private Set<Instructor> instructors = new HashSet<>();
 	
 	
-	
-	@ManyToMany(mappedBy="courses")
+	@ManyToMany
+	@JoinTable(
+			name = "student_course",
+			joinColumns = @JoinColumn(name = "course_id"),
+			inverseJoinColumns = @JoinColumn(name= "student_id"))
 	private Set<Student> students = new HashSet<>();
 	
 	
@@ -51,13 +54,14 @@ public class Course implements Serializable {
 		
 	}
 
-	public Course(Long id, @NotBlank String name, String duration, String description, Set<Instructor> instructors) {
+	public Course(Long id, @NotBlank String name, String duration, String description, Set<Instructor> instructors, Set<Student> students) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.duration = duration;
 		this.description = description;
 		this.instructors= instructors;
+		this.students = students;
 	
 	}
 	

@@ -51,5 +51,13 @@ public class CourseController {
 					+ instructorId + " to course with ID: "+ courseId);
 	}
 	
-
+	@PutMapping("/{courseId}/student/{studentId}")
+	public ResponseEntity<?> enrollStudentToCourse(@PathVariable Long courseId, 
+				@PathVariable Long studentId) throws Exception{
+		
+		courseService.enrollStudentToCourse(studentId, courseId);
+		
+		return ResponseEntity.status(HttpStatus.OK).body("Successfully added student with ID "
+				+ studentId + " to course with ID: "+ courseId);
+	}
 }

@@ -46,10 +46,6 @@ public class SecurityController {
 		return "Hello World";
 	}
 	
-//	@GetMapping("/all")
-//	public String all() {
-//		return "ALL is ALL!";
-//	}    --- this is to test 
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest request) throws Exception {
@@ -75,7 +71,7 @@ public class SecurityController {
 	}
 	
 	//Create new User
-	@PostMapping("/registerstu")
+	@PostMapping("/register")
 	public ResponseEntity<?> createNewUser(@RequestBody AuthenticationRequest newUser) throws Exception {
 		
 		Optional<User> isAlreadyRegistered = userRepo.findByUsername(newUser.getUsername());

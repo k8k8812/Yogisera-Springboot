@@ -37,17 +37,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.csrf().disable()
 			.authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-			.antMatchers(HttpMethod.POST, "/api/registerstu").permitAll()
+			.antMatchers(HttpMethod.POST, "/api/authenticate").permitAll() // --retrieve jwt token;
+			.antMatchers(HttpMethod.POST, "/api/register").permitAll()    // --add roles;
+			
+			
 			.antMatchers(HttpMethod.GET, "/api/student/**").permitAll() //any GET student operations will be permitted
 			.antMatchers(HttpMethod.POST, "/api/transaction/**").hasRole("STUDENT")
 			.antMatchers(HttpMethod.POST, "/api/student/**").hasRole("ADMIN")
 			.antMatchers(HttpMethod.DELETE, "/api/student/**").hasRole("ADMIN")
 			.antMatchers("/api/transaction/**").permitAll()
 			.antMatchers( "/swagger-ui/index.html").permitAll()
-//			.antMatchers( "/api/course/all").permitAll()
-			.antMatchers("/api/course/**").hasRole("ADMIN")
+			.antMatchers("/api/course/**").hasAnyRole("INSTRUCTOR","ADMIN")
 			.antMatchers( "/api/instructor/**").hasRole("ADMIN")
+			
+			
 			.anyRequest().authenticated()
 			.and().sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
