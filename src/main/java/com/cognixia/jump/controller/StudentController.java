@@ -27,7 +27,7 @@ public class StudentController {
 	}
 	
 	
-	@GetMapping("/all")
+	@GetMapping("/view/all")
 	public ResponseEntity<?> getAll(){
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.getAll());
 	}

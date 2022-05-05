@@ -38,8 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/api/authenticate").permitAll() // --retrieve jwt token;
-			.antMatchers(HttpMethod.POST, "/api/register").permitAll()    // --add roles;
-			
+			.antMatchers(HttpMethod.POST, "/api/register**").permitAll()    // --add roles;
+			.antMatchers("/v3/api-docs/","/swagger-ui/index.html", 
+					"/swagger-ui-custom.html", "/openapi.html").permitAll()
 			
 			 //transaction will only be made by students;
 			.antMatchers(HttpMethod.POST, "/api/transaction/**").hasRole("STUDENT")
@@ -47,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			
 			// only specific student have access to his account;
 			.antMatchers(HttpMethod.GET, "/api/student/{studentId}").hasRole("STUDENT") 
+			.antMatchers(HttpMethod.GET, "/api/student/view/all").hasRole("ADMIN")
 			.antMatchers(HttpMethod.POST, "/api/student/**").hasAnyRole("ADMIN","INSTRUCTOR")
 			
 			
@@ -54,12 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/api/course/courseinfo").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/course/getCourseList/{studentId}").hasRole("STUDENT")
 			.antMatchers(HttpMethod.POST, "/api/course/add").hasAnyRole("INSTRUCTOR","ADMIN")
-			.antMatchers(HttpMethod.PUT, "/api/course/**").hasRole("ADMIN")
+			.antMatchers(HttpMethod.PUT, "/api/course/**").hasAnyRole("ADMIN", "INSTRUCTOR")
 			
 			
-			.antMatchers("/api/instructor/**").hasRole("ADMIN")
+			.antMatchers(HttpMethod.GET,"/api/instructor/**").hasAnyRole("ADMIN", "INSTRUCTOR")
 			
-			.antMatchers( "/swagger-ui/index.html").permitAll()
+			
 			.anyRequest().authenticated()
 			.and().sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

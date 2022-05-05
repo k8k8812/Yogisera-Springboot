@@ -41,11 +41,11 @@ public class SecurityController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello World";
-	}
-	
+//	@GetMapping("/hello")
+//	public String hello() {
+//		return "Hello World";
+//	}
+//	
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest request) throws Exception {
@@ -71,7 +71,7 @@ public class SecurityController {
 	}
 	
 	//Create new User
-	@PostMapping("/register")
+	@PostMapping("/registerStudent")
 	public ResponseEntity<?> createNewUser(@RequestBody AuthenticationRequest newUser) throws Exception {
 		
 		Optional<User> isAlreadyRegistered = userRepo.findByUsername(newUser.getUsername());
@@ -90,9 +90,58 @@ public class SecurityController {
 		registerUser.setEnabled(true);
 		registerUser.setRole(Role.valueOf("ROLE_STUDENT"));
 		
-		userRepo.save(registerUser);
+		User toSave = userRepo.save(registerUser);
 		
-		return ResponseEntity.ok(newUser.getUsername() + " created.");
+		return ResponseEntity.ok(newUser.getUsername() 
+				+ " with login ID: "+ toSave.getId() + " (IMPORTANT!NOTE IT DOWN PLEASE) created.");
 	}
 	
+	@PostMapping("/registerInstructor")
+	public ResponseEntity<?> createNewInstructor(@RequestBody AuthenticationRequest newUser) throws Exception {
+		
+		Optional<User> isAlreadyRegistered = userRepo.findByUsername(newUser.getUsername());
+		
+		if (isAlreadyRegistered.isPresent()) {
+			throw new Exception("User already exits");
+		}
+		
+		String submittedPassword = newUser.getPassword();
+		
+		String encodedPassword = passwordEncoder.encode(submittedPassword);
+		
+		User registerUser = new User();
+		registerUser.setUsername(newUser.getUsername());
+		registerUser.setPassword(encodedPassword);
+		registerUser.setEnabled(true);
+		registerUser.setRole(Role.valueOf("ROLE_INSTRUCTOR"));
+		
+		User toSave = userRepo.save(registerUser);
+		
+		return ResponseEntity.ok(newUser.getUsername() 
+				+ " with login ID: "+ toSave.getId() + " created.");
+	}
+	@PostMapping("/registerAdmin")
+	public ResponseEntity<?> createNewAdmin(@RequestBody AuthenticationRequest newUser) throws Exception {
+		
+		Optional<User> isAlreadyRegistered = userRepo.findByUsername(newUser.getUsername());
+		
+		if (isAlreadyRegistered.isPresent()) {
+			throw new Exception("User already exits");
+		}
+		
+		String submittedPassword = newUser.getPassword();
+		
+		String encodedPassword = passwordEncoder.encode(submittedPassword);
+		
+		User registerUser = new User();
+		registerUser.setUsername(newUser.getUsername());
+		registerUser.setPassword(encodedPassword);
+		registerUser.setEnabled(true);
+		registerUser.setRole(Role.valueOf("ROLE_ADMIN"));
+		
+		User toSave = userRepo.save(registerUser);
+		
+		return ResponseEntity.ok(newUser.getUsername() 
+				+ " with login ID: "+ toSave.getId() + " created.");
+	}
 }

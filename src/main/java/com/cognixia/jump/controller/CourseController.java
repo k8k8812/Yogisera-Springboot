@@ -18,6 +18,8 @@ import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Course;
 import com.cognixia.jump.service.CourseService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
@@ -29,7 +31,8 @@ public class CourseController {
 		this.courseService = courseService;
 	}
 	
-	
+	@Operation(summary = "Display all the course data, including course info, instructors and students who are enrolled.",
+			description = "Info list will be shown to Admin and Instructors only.")
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllCourses(){
 		Optional<List<Course>> all = Optional.of(courseService.getAllCourses());
@@ -37,6 +40,8 @@ public class CourseController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(all.get());
 	}
 	
+	@Operation(summary = "Display all the Yoga course infomration including who instructors are.",
+			description = "This is a section of course information list for registered students or potential customers to view")
 	@GetMapping("/courseinfo")
 	public ResponseEntity<?> courseInfo(){
 		
