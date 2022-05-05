@@ -50,7 +50,6 @@ Major Entities:
 <br/>
 
 > Postman APIs 
-<br/>
 
 | <img width="310" alt="Screen Shot 2022-05-04 at 21 32 10" src="https://user-images.githubusercontent.com/84696434/166852094-2208c5dc-2c4b-4c30-8817-5580facac0e9.png">  | <img width="310" alt="Screen Shot 2022-05-04 at 21 32 47" src="https://user-images.githubusercontent.com/84696434/166852054-1cbc6cb3-dad7-4259-b1c4-ee5fe5ba66d9.png">  | <img width="310" alt="Screen Shot 2022-05-04 at 21 32 32" src="https://user-images.githubusercontent.com/84696434/166852113-931d5c32-9693-4d82-8398-af61be7ff365.png">  |
 
